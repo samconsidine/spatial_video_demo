@@ -290,7 +290,7 @@ const vertexShaderSource = `
 
       uvec4 motion1 = texelFetch(u_texture, ivec2(((uint(index) & 0x3ffu) << 2) | 3u, uint(index) >> 10), 0);
       vec2 trbf = unpackHalf2x16(motion1.w);
-      float dt = time - trbf.x;
+      float dt = (time - trbf.x);
 
       float topacity = exp(-1.0 * pow(dt / trbf.y, 2.0));
       if(topacity < 0.02) return;
@@ -889,7 +889,7 @@ async function main() {
     if (vertexCount > 0) {
       document.getElementById("spinner").style.display = "none";
       gl.uniformMatrix4fv(u_view, false, actualViewMatrix);
-      gl.uniform1f(u_time, Math.sin(Date.now() / 1000) / 2 + 1 / 2);
+      gl.uniform1f(u_time, Math.sin(Date.now() * (1/8) / 1000) / 2 + 1 / 2);
 
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
